@@ -4,4 +4,5 @@ Based on [traefik](https://hub.docker.com/_/traefik)
 $ touch config/acme.json
 $ chmod 600 config/acme.json
 $ docker network create web
+$ cp config/traefik.toml.example config/traefik.toml
 ```
