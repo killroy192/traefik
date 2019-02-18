@@ -13,6 +13,9 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./config/traefik.toml:/traefik.toml
       - ./config/acme.json:/acme.json
+    logging:
+      options:
+        max-size: ${LOG_MAX_SIZE:-512m}
 
 networks:
   web:
