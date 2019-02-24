@@ -1,8 +1,8 @@
 version: '3'
-
+  
 services:
   traefik:
-    image: traefik:${TRAEFIK_VERSION}
+    image: traefik:1.5.4
     restart: always
     ports:
       - 80:80
@@ -11,8 +11,9 @@ services:
       - web
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./config/traefik.toml:/ect/traefic/traefik.toml
+      - ./config/traefik.toml:/traefik.toml
       - ./config/acme.json:/acme.json
+    container_name: traefik
     logging:
       options:
         max-size: ${LOG_MAX_SIZE:-512m}
