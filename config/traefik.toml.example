@@ -1,29 +1,18 @@
-debug = false
+[log]
+  level = "ERROR"
 
-logLevel = "ERROR"
-defaultEntryPoints = ["https","http"]
+[providers.docker]
+  exposedByDefault = false
+  network = "traefik"
 
 [entryPoints]
-  [entryPoints.http]
-  address = ":80"
-    [entryPoints.http.redirect]
-    entryPoint = "https"
-  [entryPoints.https]
-  address = ":443"
-  [entryPoints.https.tls]
+  [entryPoints.web]
+    address = ":80"
+  [entryPoints.web-secure]
+    address = ":443"
 
-[retry]
-
-[docker]
-endpoint = "unix:///var/run/docker.sock"
-domain = "my-awesome-app.org"
-watch = true
-exposedByDefault = false
-
-[acme]
-email = "your-email-here@my-awesome-app.org"
-storage = "acme.json"
-entryPoint = "https"
-onHostRule = true
-[acme.httpChallenge]
-entryPoint = "http"
+[certificatesResolvers]
+  [certificatesResolvers.default.acme]
+    email = "contact@chriswiegman.com"
+    storage = "acme.json"
+    [certificatesResolvers.default.acme.tlsChallenge]

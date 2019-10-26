@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 ENV_FILE='.env'
-TRAEFIK_CONFIG_FILE='.config/traefik.toml'
+TRAEFIK_CONFIG_FILE='config/traefik.toml'
+NETWORK_NAME=traefik
 
 make_env() {
     if [ -f "$@" ]; then
