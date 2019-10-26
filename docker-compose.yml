@@ -1,14 +1,27 @@
 version: '3.4'
 
 networks:
-  default:
-    driver: bridge
   traefik:
-    internal: true
+    external:
+      name: ${NETWORK_NAME}
 
 services:
   traefik:
     image: traefik:${VERSION}
+    restart: always
+    networks:
+      - default
+      - traefik
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./config/acme.json:/acme.json
+      - ./config/traefik.toml:/traefik.toml
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    logging:
+      options:
+        max-size: ${LOG_MAX_SIZE:-512m}
     labels:     
       # global redirect to https
       - traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)
@@ -17,14 +30,3 @@ services:
 
       # middleware redirect
       - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
-    networks:
-      - default
-      - traefik
-    ports:
-      - 80:80
-      - 443:443
-    restart: always
-    volumes:
-      - ./config/acme.json:/acme.json
-      - ./config/traefik.toml:/traefik.toml
-      - /var/run/docker.sock:/var/run/docker.sock:ro
