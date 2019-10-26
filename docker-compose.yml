@@ -1,4 +1,4 @@
-version: '3'
+version: '3.4'
   
 services:
   traefik:
@@ -8,7 +8,7 @@ services:
       - 80:80
       - 443:443
     networks:
-      - web
+      - ${NETWORK_NAME}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./config/traefik.toml:/traefik.toml
@@ -21,3 +21,4 @@ services:
 networks:
   web:
     external: true
+    name: ${NETWORK_NAME} 
